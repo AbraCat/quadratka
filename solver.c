@@ -10,7 +10,7 @@ int iszero(double x)
     const double EPS = 1e-6;
     return fabs(x) < EPS;
 }
-int scan(double *a, double *b, double *c)
+int scan_coeff(double *a, double *b, double *c)
 {
     assert(a != b);
     assert(a != c);
@@ -24,6 +24,18 @@ int scan(double *a, double *b, double *c)
         printf("Wrong input format. Try again: ");
     }
     return 0;
+}
+void init_equation(struct Equation* e)
+{
+    assert(e != NULL);
+    e->n_roots = e->a = e->b = e->c = e->x1 = e->x2 = 0;
+}
+void set_coeff(struct Equation* e, double a, double b, double c)
+{
+    assert(e != NULL);
+    e->a= a;
+    e->b = b;
+    e->c = c;
 }
 int solve_linear(double a, double b, double *x)
 {
@@ -41,42 +53,45 @@ int solve_linear(double a, double b, double *x)
     *x = -b / a;
     return 1;
 }
-int solve_quadratic(double a, double b, double c, double *x1, double *x2)
+void solve_quadratic(struct Equation* e)
 {
     // ax**2 + bx + c = 0
 
-    assert(x1 != NULL);
-    assert(x2 != NULL);
-    assert(x1 != x2);
-    assert(isfinite(a));
-    assert(isfinite(b));
-    assert(isfinite(c));
+    assert(e != NULL);
 
-    if (iszero(a))
-        return solve_linear(b, c, x1);
-    double d = b * b - 4 * a * c;
+    if (iszero(e->a))
+    {
+        e->n_roots = solve_linear(e->b, e->c, &(e->x1));
+        return;
+    }
+    double d = e->b * e->b - 4 * e->a * e->c;
     if (iszero(d))
     {
-        *x1 = -b / (a * 2);
-        return 1;
+        e->x1 = -e->b / (e->a * 2);
+        e->n_roots = 1;
+        return;
     }
-    if (d < 0) return 0;
-    *x1 = (-b - sqrt(d)) / (a * 2);
-    *x2 = (-b + sqrt(d)) / (a * 2);
-    return 2;
+    if (d < 0) 
+    {
+        e->n_roots = 0;
+        return;
+    }
+    e->x1 = (-e->b - sqrt(d)) / (e->a * 2);
+    e->x2 = (-e->b + sqrt(d)) / (e->a * 2);
+    e->n_roots = 2;
 }
-void print_roots(int n_root, double x1, double x2)
+void print_roots(struct Equation* e)
 {
-    switch (n_root)
+    switch (e->n_roots)
     {
         case 0:
             printf("No solution\n");
             break;
         case 1:
-            printf("1 root: %lf\n", x1);
+            printf("1 root: %lf\n", e->x1);
             break;
         case 2:
-            printf("2 roots: %lf, %lf\n", x1, x2);
+            printf("2 roots: %lf, %lf\n", e->x1, e->x2);
             break;
         case INF_ROOTS:
             printf("Any real number\n");

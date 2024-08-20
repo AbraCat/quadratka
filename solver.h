@@ -6,8 +6,16 @@
 enum ERootsCount;
 const int MAX_ATTEMPTS;
 
+struct Equation
+{
+    int n_roots;
+    double a, b, c, x1, x2;
+};
+
 int iszero(double x);
-int scan(double *a, double *b, double *c);
+int scan_coeff(double *a, double *b, double *c);
+void init_equation(struct Equation* e);
+void set_coeff(struct Equation* e, double a, double b, double c);
 int solve_linear(double a, double b, double *x);
-int solve_quadratic(double a, double b, double c, double *x1, double *x2);
-void print_roots(int n_root, double x1, double x2);
+void solve_quadratic(struct Equation* e);
+void print_roots(struct Equation* e);
