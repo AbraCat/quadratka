@@ -1,9 +1,6 @@
 #include "solver.h"
 
 const int MAX_ATTEMPTS = 3;
-enum ERootsCounts {
-    INF_ROOTS = -1
-};
 
 int iszero(double x) 
 {
@@ -40,12 +37,12 @@ void set_coeff(struct Equation* e, double a, double b, double c)
 int solve_linear(double a, double b, double *x)
 {
     // ax + b = 0
-    
     assert(isfinite(a));
     assert(isfinite(b));
     assert(x != NULL);
     if (iszero(a))
     {
+        *x = 0;
         if (iszero(b))
             return INF_ROOTS;
         return 0;
@@ -62,17 +59,20 @@ void solve_quadratic(struct Equation* e)
     if (iszero(e->a))
     {
         e->n_roots = solve_linear(e->b, e->c, &(e->x1));
+        e->x2 = 0;
         return;
     }
     double d = e->b * e->b - 4 * e->a * e->c;
     if (iszero(d))
     {
         e->x1 = -e->b / (e->a * 2);
+        e->x2 = 0;
         e->n_roots = 1;
         return;
     }
     if (d < 0) 
     {
+        e->x1 = e->x2 = 0;
         e->n_roots = 0;
         return;
     }
