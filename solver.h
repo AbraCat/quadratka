@@ -3,12 +3,13 @@
 #include <assert.h>
 #include <stddef.h>
 
-#define N_TESTS 7
+#define N_TESTS 8
+#define N_RAND_TESTS 5
 
 enum ERootsCounts {
     INF_ROOTS = -1
 };
-const int MAX_ATTEMPTS;
+extern const int MAX_ATTEMPTS;
 
 struct Equation
 {
