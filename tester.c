@@ -12,7 +12,7 @@ int test_solver(struct Equation* tests, int n_tests)
         passed = iszero(e.n_roots - tests->n_roots) && iszero(e.x1 - tests->x1) && iszero(e.x2 - tests->x2) ? 1 : 0;
         right_cnt += passed;
         if (!passed)
-            printf("test %d failed\na = %lf, b = %lf, c = %lf\n"
+            printf("\x1b[31mtest %d failed\x1b[39m\na = %lf, b = %lf, c = %lf\n"
             "Your answer: n_roots = %d, x1 = %lf, x2 = %lf\n"
             "Correct answer: n_roots = %d, x1 = %lf, x2 = %lf\n", 
             i + 1, tests->a, tests->b, tests->c, e.n_roots, e.x1, e.x2, tests->n_roots, tests->x1, tests->x2);
@@ -22,6 +22,7 @@ int test_solver(struct Equation* tests, int n_tests)
 }
 int test_rand(int n_tests)
 {
+    srand((unsigned)time(NULL));
     struct Equation e;
     init_equation(&e);
     int n_correct = 0, correct = 0;
@@ -48,7 +49,7 @@ int test_rand(int n_tests)
         correct = (iszero(res1) && iszero(res2)) ? 1 : 0;
         if (!correct)
         {
-            printf("test %d failed\na = %lf, b = %lf, c = %lf\n"
+            printf("\x1b[31mrandom test %d failed\x1b[39m\na = %lf, b = %lf, c = %lf\n"
             "Your answer: n_roots = %d, x1 = %lf, x2 = %lf\n"
             "Left side evaluates to: %lf, %lf\n", 
             i + 1, e.a, e.b, e.c, e.n_roots, e.x1, e.x2, res1, res2);

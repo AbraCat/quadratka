@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 #include "solver.h"
 int test_solver(struct Equation* tests, int n_tests);
 int test_rand(int n_tests);
