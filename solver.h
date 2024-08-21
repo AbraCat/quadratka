@@ -1,15 +1,18 @@
+#ifndef SOLVER_H
+#define SOLVER_H
+
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
 #include <stddef.h>
 
-#define N_TESTS 8
-#define N_RAND_TESTS 5
+static const int N_TESTS = 8;
+static const int N_RAND_TESTS = 5;
+static const int MAX_ATTEMPTS = 3;
 
 enum ERootsCounts {
     INF_ROOTS = -1
 };
-extern const int MAX_ATTEMPTS;
 
 struct Equation
 {
@@ -19,9 +22,11 @@ struct Equation
 };
 
 int iszero(double x);
-int scan_coeff(double *a, double *b, double *c);
-void init_equation(struct Equation* e);
-void set_coeff(struct Equation* e, double a, double b, double c);
-int solve_linear(double a, double b, double *x);
-void solve_quadratic(struct Equation* e);
-void print_roots(struct Equation* e);
+int scanCoeff(double *a, double *b, double *c);
+void initEquation(struct Equation* e);
+void setCoeff(struct Equation* e, double a, double b, double c);
+int solveLinear(double a, double b, double *x);
+void solveQuadratic(struct Equation* e);
+void printRoots(struct Equation* e);
+
+#endif // SOLVER_H

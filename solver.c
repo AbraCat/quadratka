@@ -1,45 +1,50 @@
-#include "solver.h"
-
-const int MAX_ATTEMPTS = 3;
+#include <solver.h>
 
 int iszero(double x) 
 {
     const double EPS = 1e-6;
     return fabs(x) < EPS;
 }
-int scan_coeff(double *a, double *b, double *c)
+int scanCoeff(double *a, double *b, double *c)
 {
     assert(a != b);
     assert(a != c);
     assert(b != c);
 
     int n_attempts = 0;
+    int ch = '\0';
     while (scanf("%lf %lf %lf", a, b, c) != 3)
     {
         if (++n_attempts == MAX_ATTEMPTS) return 1;
-        while (getchar() != '\n');
+        while ((ch = getchar()) != '\n')
+            if (ch == EOF)
+                return -1;
         printf("Wrong input format. Try again: ");
     }
     return 0;
 }
-void init_equation(struct Equation* e)
+void initEquation(struct Equation* e)
 {
     assert(e != NULL);
+
     e->n_roots = e->a = e->b = e->c = e->x1 = e->x2 = 0;
 }
-void set_coeff(struct Equation* e, double a, double b, double c)
+void setCoeff(struct Equation* e, double a, double b, double c)
 {
     assert(e != NULL);
+
     e->a= a;
     e->b = b;
     e->c = c;
 }
-int solve_linear(double a, double b, double *x)
+int solveLinear(double a, double b, double *x)
 {
     // ax + b = 0
+
     assert(isfinite(a));
     assert(isfinite(b));
     assert(x != NULL);
+
     if (iszero(a))
     {
         *x = 0;
@@ -50,7 +55,7 @@ int solve_linear(double a, double b, double *x)
     *x = -b / a;
     return 1;
 }
-void solve_quadratic(struct Equation* e)
+void solveQuadratic(struct Equation* e)
 {
     // ax**2 + bx + c = 0
 
@@ -58,7 +63,7 @@ void solve_quadratic(struct Equation* e)
 
     if (iszero(e->a))
     {
-        e->n_roots = solve_linear(e->b, e->c, &(e->x1));
+        e->n_roots = solveLinear(e->b, e->c, &(e->x1));
         e->x2 = 0;
         return;
     }
@@ -80,8 +85,10 @@ void solve_quadratic(struct Equation* e)
     e->x2 = (-e->b + sqrt(d)) / (e->a * 2);
     e->n_roots = 2;
 }
-void print_roots(struct Equation* e)
+void printRoots(struct Equation* e)
 {
+    assert(e != NULL);
+
     switch (e->n_roots)
     {
         case 0:

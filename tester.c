@@ -1,18 +1,18 @@
 
-#include "tester.h"
-int test_solver(struct Equation* tests, int n_tests)
+#include <tester.h>
+int testSolver(struct Equation* tests, int n_tests)
 {
     struct Equation e;
-    init_equation(&e);
+    initEquation(&e);
     int right_cnt = 0, passed = 0;
     for (int i = 0; i != n_tests; ++i)
     {
-        set_coeff(&e, tests->a, tests->b, tests->c);
-        solve_quadratic(&e);
+        setCoeff(&e, tests->a, tests->b, tests->c);
+        solveQuadratic(&e);
         passed = iszero(e.n_roots - tests->n_roots) && iszero(e.x1 - tests->x1) && iszero(e.x2 - tests->x2) ? 1 : 0;
         right_cnt += passed;
         if (!passed)
-            printf("\x1b[31mtest %d failed\x1b[39m\na = %lf, b = %lf, c = %lf\n"
+            printf(RED "test %d failed" RESET "\na = %lf, b = %lf, c = %lf\n"
             "Your answer: n_roots = %d, x1 = %lf, x2 = %lf\n"
             "Correct answer: n_roots = %d, x1 = %lf, x2 = %lf\n", 
             i + 1, tests->a, tests->b, tests->c, e.n_roots, e.x1, e.x2, tests->n_roots, tests->x1, tests->x2);
@@ -20,17 +20,17 @@ int test_solver(struct Equation* tests, int n_tests)
     }
     return right_cnt;
 }
-int test_rand(int n_tests)
+int testRand(int n_tests)
 {
     srand((unsigned)time(NULL));
     struct Equation e;
-    init_equation(&e);
+    initEquation(&e);
     int n_correct = 0, correct = 0;
     double res1 = 0, res2 = 0;
     for (int i = 0; i != n_tests; ++i)
     {
-        set_coeff(&e, gen_rand(), gen_rand(), gen_rand());
-        solve_quadratic(&e);
+        setCoeff(&e, genRand(), genRand(), genRand());
+        solveQuadratic(&e);
         res1 = res2 = 0;
         switch (e.n_roots)
         {
@@ -58,13 +58,20 @@ int test_rand(int n_tests)
     }
     return n_correct;
 }
-double gen_rand(void)
+double genRand(void)
 {
     return (1.0 * rand() - RAND_MAX / 2) / (RAND_MAX / 2) * 10;
 }
-void read_tests(char* file_name, struct Equation* tests, int n_tests)
+void readTests(char* file_name, struct Equation* tests, int n_tests)
 {
+    assert(file_name != NULL);
+    
     FILE* file = fopen(file_name, "r");
+    if (file == NULL)
+    {
+        printf("\x1b[31mread_tests(): couldn't open file\x1b[39m\n");
+        return;
+    }
     int i = 0;
     for (i = 0; i != n_tests; ++i)
     {
