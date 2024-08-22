@@ -24,15 +24,6 @@ int scanCoeff(struct Equation* e)
             printf("Wrong input format. Try again: ");
     }
     return 1;
-
-    // while (scanf("%lf %lf %lf\n", a, b, c) != 3)
-    // {
-    //     if (++n_attempts == MAX_ATTEMPTS) return 1;
-    //     while ((ch = getchar()) != '\n')
-    //         if (ch == EOF)
-    //             return -1;
-    //     printf("Wrong input format. Try again: ");
-    // }
 }
 void initEquation(struct Equation* e)
 {

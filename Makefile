@@ -1,9 +1,12 @@
-.PHONY: all clean run
+.PHONY: all clean run runt
 
 all: exe/main.exe
 
 run: 
 	exe/main.exe
+
+runt:
+	exe/main.exe -t
 
 clean:
 	rmdir o /s /q

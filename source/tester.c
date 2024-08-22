@@ -89,6 +89,11 @@ int readTests(char* file_name, struct Equation* tests, int n_tests)
 int readAndTest(char* file, int* n_tests)
 {
     FILE *fp = fopen(file, "r");
+    if (fp == NULL)
+    {
+        printf(RED "Error: %s\n" DEFAULT, strerror(errno));
+        return -2;
+    }
     if (fscanf(fp, "%d", n_tests) == 0)
     {
         fclose(fp);

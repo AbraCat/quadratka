@@ -35,11 +35,16 @@ int mainSolve(int argc, char* argv[])
 int mainTest(int argc, char* argv[])
 {
     int n_tests = 0;
-    int correct_cnt = readAndTest("..\\txt\\tests.txt", &n_tests);
-    if (correct_cnt == -1)
+    int correct_cnt = readAndTest(".\\txt\\tests.txt", &n_tests);
+    if (correct_cnt < 0)
     {
-        printf(RED "Wrong file format\n" DEFAULT);
-        return -1;
+        switch (correct_cnt)
+        {
+            case -1:
+                printf(RED "Wrong file format\n" DEFAULT);
+                break;
+        }
+        return 1;
     }
     printf("Number of passed tests: %d / %d\n", correct_cnt, n_tests);
     printf("Number of passed random tests: %d / %d\n", testRand(N_RAND_TESTS), N_RAND_TESTS);
