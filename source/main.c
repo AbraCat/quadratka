@@ -14,6 +14,8 @@ int main(int argc, char* argv[])
 
 int mainSolve(int argc, char* argv[])
 {
+    // aaaaaaaaa
+    
     printf("Program for solving quadratic equations in form a*x^2 + b*x + c\nEnter coeffiients (a, b, c): ");
     struct Equation e;
     initEquation(&e);
