@@ -94,6 +94,12 @@ void solveQuadratic(struct Equation* e)
     }
     e->x1 = (-e->b - sqrt(d)) / (e->a * 2);
     e->x2 = (-e->b + sqrt(d)) / (e->a * 2);
+    if (e->x1 > e->x2)
+    {
+        double temp = e->x1;
+        e->x1 = e->x2;
+        e->x2 = temp;
+    }
     e->n_roots = 2;
 }
 void printRoots(struct Equation* e)

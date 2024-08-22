@@ -7,7 +7,6 @@
 #include <stddef.h>
 #include <ctype.h>
 
-// static const int N_TESTS = 11;
 static const int N_RAND_TESTS = 5;
 static const int MAX_ATTEMPTS = 3;
 
