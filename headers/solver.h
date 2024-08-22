@@ -21,12 +21,47 @@ struct Equation
     double x1, x2;
 };
 
+/*! \brief Checks if argument is small enough to be considered zero.
+\param x double that will be compared to zero
+\return nonzero if x in zero, 0 is x is not zero
+ */
 int iszero(double x);
+
+/*! \brief Scans coefficients (a, b, c) from stdin. Give a user MAX_ATTEMPST attempts.
+* \param e Equation that will store scanned coefficients.
+* \return 0 if scanned successfully, nonzero otherwise.
+ */
 int scanCoeff(struct Equation* e);
+
+/*! \brief Initializes all members of e with zeros.
+\param e Equation that will be initialized
+ */
 void initEquation(struct Equation* e);
+
+/*! \brief Sets coefficients (a, b, c) of struct Equation.
+\param e Equation that will store coeffictients
+\param a a coeff
+\param b b coeff
+\param c c coeff
+ */
 void setCoeff(struct Equation* e, double a, double b, double c);
+
+/*! \brief Solves linear equation (a * x + b = 0).
+\param a a coeff
+\param b b coeff
+\param x will store a root if it exists
+\return number of roots
+ */
 int solveLinear(double a, double b, double *x);
+
+/*! \brief Solves quadratic equation defined by coefficients of e.
+\param e Equation that should have coefficients and will store roots
+ */
 void solveQuadratic(struct Equation* e);
+
+/*! \brief Prints a number of roots and each root stored in e.
+\param e Equation that stores roots
+ */
 void printRoots(struct Equation* e);
 
 #endif // SOLVER_H

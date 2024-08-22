@@ -30,7 +30,7 @@ int testRand(int n_tests)
     double res1 = 0, res2 = 0;
     for (int i = 0; i != n_tests; ++i)
     {
-        setCoeff(&e, genRand(), genRand(), genRand());
+        setCoeff(&e, genRand(1000), genRand(1000), genRand(1000));
         solveQuadratic(&e);
         res1 = res2 = 0;
         switch (e.n_roots)
@@ -59,9 +59,9 @@ int testRand(int n_tests)
     }
     return n_correct;
 }
-double genRand(void)
+double genRand(int rand_max)
 {
-    return (1.0 * rand() - RAND_MAX / 2) / (RAND_MAX / 2) * 1000;
+    return (1.0 * rand() - RAND_MAX / 2) / (RAND_MAX / 2) * rand_max;
 }
 int readTests(char* file_name, struct Equation* tests, int n_tests)
 {
@@ -88,6 +88,8 @@ int readTests(char* file_name, struct Equation* tests, int n_tests)
 }
 int readAndTest(char* file, int* n_tests)
 {
+    assert(n_tests !=  NULL);
+
     FILE *fp = fopen(file, "r");
     if (fp == NULL)
     {
@@ -96,6 +98,7 @@ int readAndTest(char* file, int* n_tests)
     }
     if (fscanf(fp, "%d", n_tests) == 0)
     {
+        *n_tests = 0;
         fclose(fp);
         return -1;
     }

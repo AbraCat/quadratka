@@ -2,6 +2,9 @@
 
 all: exe/main.exe
 
+docs:
+	doxygen Doxyfile
+
 run: 
 	exe/main.exe
 
