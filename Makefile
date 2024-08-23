@@ -17,7 +17,7 @@ clean:
 	mkdir o
 	mkdir exe
 
-FILES:= o/main.o o/solver.o o/tester.o
+FILES:= o/main.o o/solver.o o/tester.o o/custom.o
 
 CFLAGS:= -I ./headers
 

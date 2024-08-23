@@ -1,17 +1,20 @@
 #include <solver.h>
 #include <tester.h>
 #include <string.h>
-#include <assertCustom.h>
+#include <custom.h>
 
 int mainSolve(int argc, char* argv[]);
 int mainTest(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-    assertCustom(1);
-    if (argc > 1 && !strcmp(argv[1], "-t"))
-        return mainTest(argc, argv);
-    return mainSolve(argc, argv);
+    // assertCustom(1);
+    // if (argc > 1 && !strcmp(argv[1], "-t"))
+    //     return mainTest(argc, argv);
+    // return mainSolve(argc, argv);
+
+    printfCustom("%d %f %s %c %% %ld %lf %hd", 1, 1.1, "aaa", 'b', (long int)2, 2.2, (short int)3);
+    return 0;
 }
 
 int mainSolve(int argc, char* argv[])
