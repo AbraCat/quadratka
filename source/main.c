@@ -1,3 +1,5 @@
+#include <getopt.h>
+
 #include <solver.h>
 #include <tester.h>
 #include <string.h>
@@ -8,13 +10,30 @@ int mainTest(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-    // assertCustom(1);
-    // if (argc > 1 && !strcmp(argv[1], "-t"))
-    //     return mainTest(argc, argv);
-    // return mainSolve(argc, argv);
+    assertCustom(1);
 
-    printfCustom("%d %f %s %c %% %ld %lf %hd", 1, 1.1, "aaa", 'b', (long int)2, 2.2, (short int)3);
-    return 0;
+    //return printfCustom("%d %f %s %R %c %% %ld %lf %D %hd %lld %hhd", 1, 1.1, "aaa", 'b', (long int)2, 2.2, (short int)3, (long long)4, (signed char)5);
+    
+    int help = 0, t = 0;
+    struct option longopts[2] = {{"help", 0, NULL, 1}, {NULL, 0, NULL, 0}};
+    int val = 0, longindex_int = 0;
+    int *longindex = &longindex_int;
+    for (int i = 1; i != argc; ++i)
+    {
+        val = getopt_long(argc, argv, "t", longopts, longindex);
+        if (val == 1)
+            help = 1;
+        else if (val == 't')
+            t = 1;
+    }
+    if (help)
+    {
+        helpFunc();
+        return 0;
+    }
+    if (t)
+        return mainTest(argc, argv);
+    return mainSolve(argc, argv);
 }
 
 int mainSolve(int argc, char* argv[])
@@ -49,6 +68,9 @@ int mainTest(int argc, char* argv[])
         {
             case -1:
                 printf(RED "Wrong file format\n" DEFAULT);
+                break;
+            case -2:
+                printf(RED "Error: %s\n" DEFAULT, strerror(errno));
                 break;
             default:
                 printf("Unknown error\n");

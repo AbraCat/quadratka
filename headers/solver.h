@@ -64,4 +64,6 @@ void solveQuadratic(struct Equation* e);
  */
 void printRoots(struct Equation* e);
 
+void helpFunc();
+
 #endif // SOLVER_H

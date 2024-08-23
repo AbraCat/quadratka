@@ -116,3 +116,7 @@ void printRoots(struct Equation* e)
             break;
     }
 }
+void helpFunc()
+{
+    printf("Help message\n");
+}

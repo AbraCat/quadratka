@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#include <colors.h>
+
 #define assertCustom(expr) if (!(expr))\
 {\
     printf(RED "Custom assertion falied: " #expr DEFAULT "\nFile: " __FILE__ "\nFunction: %s\n Line: %d\n", __FUNCTION__, __LINE__);\

@@ -1,3 +1,6 @@
+#ifndef COLORS_H
+#define COLORS_H
+
 #define BLACK "\x1b[30m"
 #define RED "\x1b[31m"
 #define GREEN "\x1b[32m"
@@ -7,3 +10,5 @@
 #define CYAN "\x1b[36m"
 #define WHITE "\x1b[37m"
 #define DEFAULT "\x1b[39m"
+
+#endif // COLORS_H
