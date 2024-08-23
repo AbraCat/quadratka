@@ -11,6 +11,6 @@
     exit(1);\
 }
 
-int printfCustom(char* fmt, ...);
+int printfCustom(const char* fmt, ...);
 
 #endif // ASSERTCUSTOM_H

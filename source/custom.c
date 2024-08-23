@@ -1,6 +1,6 @@
 #include <custom.h>
 
-int printfCustom(char* fmt, ...)
+int printfCustom(const char* fmt, ...)
 {
     va_list va;
     va_start(va, fmt);
@@ -11,20 +11,16 @@ int printfCustom(char* fmt, ...)
             switch(fmt[++i])
             {
                 case 'd':;
-                    int d = va_arg(va, int);
-                    printf("%d", d);
+                    printf("%d", va_arg(va, int));
                     break;
                 case 'f':;
-                    double f = va_arg(va, double);
-                    printf("%f", f);
+                    printf("%f", va_arg(va, double));
                     break;
                 case 's':;
-                    char* s = va_arg(va, char*);
-                    printf("%s", s);
+                    printf("%s", va_arg(va, char*));
                     break;
                 case 'c':;
-                    char c = va_arg(va, int);
-                    printf("%c", c);
+                    printf("%c", (char)va_arg(va, int));
                     break;
                 case '%':
                     printf("%%");
@@ -33,12 +29,10 @@ int printfCustom(char* fmt, ...)
                     switch(fmt[++i])
                     {
                         case 'd':;
-                            long int ld = va_arg(va, long int);
-                            printf("%ld", ld);
+                            printf("%ld", va_arg(va, long int));
                             break;
                         case 'f':;
-                            double lf = va_arg(va, double);
-                            printf("%lf", lf);
+                            printf("%lf", va_arg(va, double));
                             break;
                         default:
                             return 1;
@@ -48,8 +42,7 @@ int printfCustom(char* fmt, ...)
                     switch(fmt[++i])
                     {
                         case 'd':;
-                            short int hd = va_arg(va, int);
-                            printf("%hd", hd);
+                            printf("%hd", (short int)va_arg(va, int));
                             break;
                         default:
                             return 1;

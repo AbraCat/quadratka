@@ -28,7 +28,7 @@ File should contain n_tests lines. Each line should contain 6 mumbers and repres
 * \param n_tests number of tests
 * \return 0 if errors occur nored, nonzero otherwise
  */
-int readTests(char* file_name, struct Equation* tests, int n_tests);
+int readTests(const char* file_name, struct Equation* tests, int n_tests);
 
 /*! \brief Generates a random double from -rand_max to rand_max
 \param rand_max boundary for a generated number
@@ -40,6 +40,6 @@ double genRand(int rand_max);
 \param n_tests int that will store number of tests
 \return number of passed tests
  */
-int readAndTest(char* file, int *n_tests);
+int readAndTest(const char* file, int *n_tests);
 
 #endif // TESTER_H

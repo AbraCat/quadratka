@@ -30,6 +30,10 @@ int mainSolve(int argc, char* argv[])
         case EOF:
             printf("Reached end of file\n");
             return -1;
+        case 0:
+            break;
+        default:
+            printf("Unknown error\n");
     }
     solveQuadratic(&e);
     printRoots(&e);
@@ -45,6 +49,9 @@ int mainTest(int argc, char* argv[])
         {
             case -1:
                 printf(RED "Wrong file format\n" DEFAULT);
+                break;
+            default:
+                printf("Unknown error\n");
                 break;
         }
         return 1;

@@ -9,7 +9,6 @@ int scanCoeff(struct Equation* e)
 {
     assert(e != NULL);
 
-    int n_attempts = 0;
     int ch = '\0';
     for (int i = 0; i != MAX_ATTEMPTS; ++i)
     {
@@ -29,7 +28,8 @@ void initEquation(struct Equation* e)
 {
     assert(e != NULL);
 
-    e->n_roots = e->a = e->b = e->c = e->x1 = e->x2 = 0;
+    e->n_roots = 0;
+    e->a = e->b = e->c = e->x1 = e->x2 = 0;
 }
 void setCoeff(struct Equation* e, double a, double b, double c)
 {

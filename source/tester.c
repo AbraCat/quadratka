@@ -63,7 +63,7 @@ double genRand(int rand_max)
 {
     return (1.0 * rand() - RAND_MAX / 2) / (RAND_MAX / 2) * rand_max;
 }
-int readTests(char* file_name, struct Equation* tests, int n_tests)
+int readTests(const char* file_name, struct Equation* tests, int n_tests)
 {
     assert(file_name != NULL);
 
@@ -86,7 +86,7 @@ int readTests(char* file_name, struct Equation* tests, int n_tests)
     fclose(file);
     return 0;
 }
-int readAndTest(char* file, int* n_tests)
+int readAndTest(const char* file, int* n_tests)
 {
     assert(n_tests !=  NULL);
 
