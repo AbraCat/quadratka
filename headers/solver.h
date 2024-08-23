@@ -7,6 +7,8 @@
 #include <stddef.h>
 #include <ctype.h>
 
+#include <custom.h>
+
 static const int N_RAND_TESTS = 5;
 static const int MAX_ATTEMPTS = 3;
 
@@ -20,12 +22,6 @@ struct Equation
     int n_roots;
     double x1, x2;
 };
-
-/*! \brief Checks if argument is small enough to be considered zero.
-\param x double that will be compared to zero
-\return nonzero if x in zero, 0 is x is not zero
- */
-int iszero(double x);
 
 /*! \brief Scans coefficients (a, b, c) from stdin. Give a user MAX_ATTEMPST attempts.
 * \param e Equation that will store scanned coefficients.

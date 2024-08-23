@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <math.h>
 
 #include <colors.h>
 
@@ -13,6 +14,14 @@
     exit(1);\
 }
 
+
+/*! \brief Checks if argument is small enough to be considered zero.
+\param x double that will be compared to zero
+\return nonzero if x in zero, 0 is x is not zero
+ */
+int iszero(double x);
+void printD(long long d);
+int printF(double f, int p);
 int printfCustom(const char* fmt, ...);
 
 #endif // ASSERTCUSTOM_H

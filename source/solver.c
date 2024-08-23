@@ -1,10 +1,5 @@
 #include <solver.h>
 
-int iszero(double x) 
-{
-    const double EPS = 1e-6;
-    return fabs(x) < EPS;
-}
 int scanCoeff(struct Equation* e)
 {
     assert(e != NULL);

@@ -11,8 +11,16 @@ int mainTest(int argc, char* argv[]);
 int main(int argc, char* argv[])
 {
     assertCustom(1);
-
-    //return printfCustom("%d %f %s %R %c %% %ld %lf %D %hd %lld %hhd", 1, 1.1, "aaa", 'b', (long int)2, 2.2, (short int)3, (long long)4, (signed char)5);
+    // printD(47439);
+    // printD(0);
+    // printD(1);
+    // printD(-1);
+    // printD(-47439);
+    // printF(2.2, 1);
+    // printF(765802.6478699999999999999, 5);
+    // printF(53645.396532, 0);
+    return printfCustom("%d %f %s %R %c %% %ld %lf %D %hd %lld %hhd %f %f %f\n", 1, 1.1, "aaa", 'b', (long int)2, 2.2, (short int)3, (long long)4, 
+    (signed char)5, -0.9, 0.00001, 0.000009);
     
     int help = 0, t = 0;
     struct option longopts[2] = {{"help", 0, NULL, 1}, {NULL, 0, NULL, 0}};

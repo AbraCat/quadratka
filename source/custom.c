@@ -1,5 +1,10 @@
 #include <custom.h>
 
+int iszero(double x) 
+{
+    const double EPS = 1e-6;
+    return fabs(x) < EPS;
+}
 int printfCustom(const char* fmt, ...)
 {
     va_list va;
@@ -25,19 +30,19 @@ int printfCustom(const char* fmt, ...)
             switch(fmt[i])
             {
                 case 'R':
-                    printf(RED);
+                    fputs(RED, stdout);
                     break;
                 case 'D':
-                    printf(DEFAULT);
+                    fputs(DEFAULT, stdout);
                     break;
                 case 'd':
                     if (cnt_l != 0) switch (cnt_l)
                     {
                         case 1:
-                            printf("%ld", va_arg(va, long int));
+                            printD((long long)va_arg(va, long int));
                             break;
                         case 2:
-                            printf("%lld", va_arg(va, long long));
+                            printD(va_arg(va, long long));
                             break;
                         default:
                             return 1;
@@ -45,38 +50,38 @@ int printfCustom(const char* fmt, ...)
                     else if (cnt_h != 0) switch (cnt_h)
                     {
                         case 1:
-                            printf("%hd", (short int)va_arg(va, int));
+                            printD((long long)va_arg(va, int));
                             break;
                         case 2:
-                            printf("%hhd", (signed char)va_arg(va, int));
+                            printD((long long)va_arg(va, int));
                             break;
                         default:
                             return 1;
                     }
                     else
-                        printf("%d", va_arg(va, int));
+                        printD((long long)va_arg(va, int));
                     break;
                 case 'f':
                     switch(cnt_l)
                     {
                         case 0:
-                            printf("%f", va_arg(va, double));
+                            printF(va_arg(va, double), 5);
                             break;
                         case 1:
-                            printf("%lf", va_arg(va, double));
+                            printF(va_arg(va, double), 5);
                             break;
                         default:
                             return 1;
                     }
                     break;
                 case 's':
-                    printf("%s", va_arg(va, char*));
+                    fputs(va_arg(va, char*), stdout);
                     break;
                 case 'c':
-                    printf("%c", (char)va_arg(va, int));
+                    putchar((char)va_arg(va, int));
                     break;
                 case '%':
-                    printf("%%");
+                    putchar('%');
                     break;
                 default:
                     return 1;
@@ -86,5 +91,50 @@ int printfCustom(const char* fmt, ...)
             putchar(fmt[i]);
     }
     va_end(va);
+    return 0;
+}
+void printD(long long d)
+{
+    if (d == 0)
+    {
+        putchar('0');
+        return;
+    }
+    if (d < 0)
+    {
+        putchar('-');
+        d *= -1;
+    }
+    long long ten = 1;
+    while (ten <= d)
+        ten *= 10;
+    ten /= 10;
+    while (ten != 0)
+    {
+        putchar('0' + (int)(d / ten));
+        d %= ten;
+        ten /= 10;
+    }
+}
+int printF(double f, int p)
+{
+    if (p < 0) return 1;
+    if (f < 0)
+    {
+        putchar('-');
+        f *= -1;
+    }
+    long long llf = (long long)f;
+    printD(llf);
+    if (p == 0) return 0;
+    putchar('.');
+    f -= llf;
+    while (p-- && !iszero(f))
+    {
+        f *= 10;
+        int intf = (int)f;
+        putchar('0' + intf);
+        f -= intf;
+    }
     return 0;
 }
