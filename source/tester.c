@@ -1,5 +1,28 @@
 
 #include <tester.h>
+long fileSize(FILE *file)
+{
+    assert(file != NULL);
+    fseek(file, 0L, SEEK_END);
+    long siz = ftell(file);
+    fseek(file, 0L, SEEK_SET);
+    return siz;
+}
+char* readFile(FILE* file, int *n_chars, int *error)
+{
+    assert(file != NULL && n_chars != NULL && error != NULL);
+    long siz = fileSize(file);
+    char* s = calloc(siz, sizeof(char));
+    *n_chars = fread(s, sizeof(char), siz, file);
+    if (!feof(file) || ferror(file))
+    {
+        free(s);
+        *error = 1;
+        return NULL;
+    }
+    *error = 0;
+    return s;
+}
 int testSolver(struct Equation* tests, int n_tests)
 {
     struct Equation e;
@@ -70,7 +93,6 @@ struct Equation* readTests(const char* file_name, int *n_tests, int *error)
     FILE* file = fopen(file_name, "r");
     if (file == NULL)
     {
-        printf(RED "readTests(): couldn't open file" DEFAULT "\n");
         fclose(file);
         *error = 1;
         return NULL;
@@ -81,13 +103,26 @@ struct Equation* readTests(const char* file_name, int *n_tests, int *error)
         *error = 2;
         return NULL;
     }
+    if (*n_tests < 0)
+    {
+        fclose(file);
+        *error = 2;
+        return NULL;
+    }
     struct Equation* tests = calloc(*n_tests, sizeof(struct Equation));
+    if (tests == NULL)
+    {
+        fclose(file);
+        *error = 3;
+        return NULL;
+    }
     for (int i = 0; i != *n_tests; ++i)
     {
         if (fscanf(file, "%lf %lf %lf %d %lf %lf\n", &tests[i].a, &tests[i].b, &tests[i].c, &tests[i].n_roots, &tests[i].x1, &tests[i].x2) != 6)
         {
             fclose(file);
             *error = 2;
+            free(tests);
             return NULL;
         }
     }

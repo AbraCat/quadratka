@@ -31,5 +31,5 @@ exe/main.exe: $(O_FILES)
 include $(wildcard d/*.d)
 
 o/%.o: source/%.c
-	gcc $< $(CFLAGS) -c -o $@
+	@gcc $< $(CFLAGS) -c -o $@
 	@gcc -MM -MT $@ -I ./headers $< -o d/$(patsubst %.o,%.d,$(notdir $@))

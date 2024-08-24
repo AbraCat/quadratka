@@ -14,32 +14,55 @@ int main(int argc, char* argv[])
     //assertCustom(1);
 
     //return printfCustom("%d %f %s %R %c %% %ld %lf %D %hd %lld %hhd %f %f %f\n", 1, 1.1, "aaa", 'b', (long int)2, 2.2, (short int)3, (long long)4, 
-    //(signed char)5, -0.9, 0.00001, 0.000009); 
-    
-    int help = 0, T = 0, t = 0;
-    struct option longopts[2] = {{"help", 0, NULL, 1}, {NULL, 0, NULL, 0}};
-    int val = 0, longindex_int = 0;
-    int *longindex = &longindex_int;
-    for (int i = 1; i != argc; ++i)
+    //(signed char)5, -0.9, 0.00001, 0.000009);
+
+    const char* file_name = ".\\txt\\test-file.txt";
+    FILE *file = fopen(file_name, "r");
+    int n_chars = 0, error = 0;
+    char* s = readFile(file, &n_chars, &error);
+    if (s == NULL)
     {
-        val = getopt_long(argc, argv, "Tt", longopts, longindex);
-        if (val == 1)
-            help = 1;
-        else if (val == 'T')
-            T = 1;
-        else if (val == 't')
-            t = 1;
+        switch(error)
+        {
+            case 1:
+                printf(RED "Error\n" DEFAULT);
+                break;
+            default:
+                printf("Unknown error\n");
+                break;
+        }
+        fclose(file);
+        return 1;
     }
-    if (help)
-    {
-        helpFunc();
-        return 0;
-    }
-    if (T)
-        return mainTest(argc, argv);
-    if (t)
-        return mainTest2(argc, argv);
-    return mainSolve(argc, argv);
+    printf("%d %s\n", n_chars, s);
+    fclose(file);
+    free(s);
+    return 0;
+
+    // int help = 0, T = 0, t = 0;
+    // struct option longopts[2] = {{"help", 0, NULL, 1}, {NULL, 0, NULL, 0}};
+    // int val = 0, longindex_int = 0;
+    // int *longindex = &longindex_int;
+    // for (int i = 1; i != argc; ++i)
+    // {
+    //     val = getopt_long(argc, argv, "Tt", longopts, longindex);
+    //     if (val == 1)
+    //         help = 1;
+    //     else if (val == 'T')
+    //         T = 1;
+    //     else if (val == 't')
+    //         t = 1;
+    // }
+    // if (help)
+    // {
+    //     helpFunc();
+    //     return 0;
+    // }
+    // if (T)
+    //     return mainTest(argc, argv);
+    // if (t)
+    //     return mainTest2(argc, argv);
+    // return mainSolve(argc, argv);
 }
 
 int mainSolve(int argc, char* argv[])
@@ -93,17 +116,23 @@ int mainTest2(int agrc, char* argv[])
     int n_tests = 0;
     int error = 0;
     struct Equation* tests = readTests(".\\txt\\tests.txt", &n_tests, &error);
-    if (tests == NULL) switch (error)
+    if (tests == NULL) 
     {
-        case 1:
-            printf(RED "Error: %s\n" DEFAULT, strerror(errno));
-            break;
-        case 2:
-            printf(RED "Wrong file format\n" DEFAULT);
-            break;
-        default:
-            printf("Unknown error\n");
-            break;
+        switch (error)
+        {
+            case 1:
+                printf(RED "Error: %s\n" DEFAULT, strerror(errno));
+                break;
+            case 2:
+                printf(RED "Wrong file format\n" DEFAULT);
+                break;
+            case 3:
+                printf(RED "Counln't allocate memory for tests\n" DEFAULT);
+                break;
+            default:
+                printf("Unknown error\n");
+                break;
+        }
         return 1;
     }
     int correct_cnt = testSolver(tests, n_tests);

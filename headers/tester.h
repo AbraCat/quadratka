@@ -21,6 +21,10 @@ int testSolver(struct Equation* tests, int n_tests);
  */
 int testRand(int n_tests);
 
+long fileSize(FILE *file);
+
+char* readFile(FILE* file, int *n_chars, int *error);
+
 /*! \brief (old docs) Reads tests from specified file in an array.
 
 File should contain n_tests lines. Each line should contain 6 mumbers and represent a single test.
