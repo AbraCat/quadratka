@@ -63,28 +63,37 @@ double genRand(int rand_max)
 {
     return (1.0 * rand() - RAND_MAX / 2) / (RAND_MAX / 2) * rand_max;
 }
-int readTests(const char* file_name, struct Equation* tests, int n_tests)
+struct Equation* readTests(const char* file_name, int *n_tests, int *error)
 {
-    assert(file_name != NULL);
+    assert(file_name != NULL && n_tests != NULL && error != NULL);
 
     FILE* file = fopen(file_name, "r");
     if (file == NULL)
     {
         printf(RED "readTests(): couldn't open file" DEFAULT "\n");
         fclose(file);
-        return 1;
+        *error = 1;
+        return NULL;
     }
-    int i = 0;
-    for (i = 0; i != n_tests; ++i)
+    if (!fscanf(file, "%d", n_tests))
+    {
+        fclose(file);
+        *error = 2;
+        return NULL;
+    }
+    struct Equation* tests = calloc(*n_tests, sizeof(struct Equation));
+    for (int i = 0; i != *n_tests; ++i)
     {
         if (fscanf(file, "%lf %lf %lf %d %lf %lf\n", &tests[i].a, &tests[i].b, &tests[i].c, &tests[i].n_roots, &tests[i].x1, &tests[i].x2) != 6)
         {
             fclose(file);
-            return 1;
+            *error = 2;
+            return NULL;
         }
     }
     fclose(file);
-    return 0;
+    *error = 0;
+    return tests;
 }
 int readAndTest(const char* file, int* n_tests)
 {

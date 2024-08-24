@@ -6,7 +6,9 @@
 #include <assert.h>
 #include <stddef.h>
 #include <ctype.h>
+
 #include <custom.h>
+
 static const int N_RAND_TESTS = 5;
 static const int MAX_ATTEMPTS = 3;
 

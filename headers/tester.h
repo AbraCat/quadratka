@@ -3,9 +3,10 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+
 #include <solver.h>
 #include <colors.h>
-#include <string.h>
 
 /*! \brief Runs n_tests from array tests. Returns number of passed tests.
 \param tests array of tests
@@ -20,7 +21,7 @@ int testSolver(struct Equation* tests, int n_tests);
  */
 int testRand(int n_tests);
 
-/*! \brief Reads tests from specified file in an array.
+/*! \brief (old docs) Reads tests from specified file in an array.
 
 File should contain n_tests lines. Each line should contain 6 mumbers and represent a single test.
 * \param file_name path to file containing tests
@@ -28,7 +29,7 @@ File should contain n_tests lines. Each line should contain 6 mumbers and repres
 * \param n_tests number of tests
 * \return 0 if errors occur nored, nonzero otherwise
  */
-int readTests(const char* file_name, struct Equation* tests, int n_tests);
+struct Equation* readTests(const char* file_name, int *n_tests, int *error);
 
 /*! \brief Generates a random double from -rand_max to rand_max
 \param rand_max boundary for a generated number
