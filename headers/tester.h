@@ -23,6 +23,10 @@ int testRand(int n_tests);
 
 long fileSize(FILE *file);
 
+int nLines(const char* s);
+
+struct Equation* getTests(const char* s, int n_lines, int* error);
+
 char* readFile(FILE* file, int *n_chars, int *error);
 
 /*! \brief (old docs) Reads tests from specified file in an array.

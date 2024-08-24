@@ -23,6 +23,38 @@ char* readFile(FILE* file, int *n_chars, int *error)
     *error = 0;
     return s;
 }
+int nLines(const char* s)
+{
+    if (s[0] == '\0') return 0;
+    int cnt = 0, i = 0;
+    for (i = 0; s[i] != '\0'; ++i)
+    {
+        if (s[i] == '\n')
+            ++cnt;
+    }
+    if (s[i - 1] != '\n') cnt += 1;
+    return cnt;
+}
+struct Equation* getTests(const char* s, int n_lines, int* error)
+{
+    assert(error != NULL);
+    struct Equation* tests = calloc(n_lines, sizeof(struct Equation));
+    if (tests == NULL)
+    {
+        *error = 3;
+        return NULL;
+    }
+    for (int i = 0; i != n_lines; ++i)
+    {
+        if (sscanf(s, "%lf %lf %lf %d %lf %lf\n", &tests[i].a, &tests[i].b, &tests[i].c, &tests[i].n_roots, &tests[i].x1, &tests[i].x2) != 6)
+        {
+            *error = 2;
+            free(tests);
+            return NULL;
+        }
+    }
+    return tests;
+}
 int testSolver(struct Equation* tests, int n_tests)
 {
     struct Equation e;
