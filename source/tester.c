@@ -1,5 +1,15 @@
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+#include <stdio.h>
+#include <assert.h>
+#include <math.h>
+#include <ctype.h>
 
 #include <tester.h>
+#include <colors.h>
+#include <custom.h>
+
 long fileSize(FILE *file)
 {
     assert(file != NULL);
@@ -8,12 +18,13 @@ long fileSize(FILE *file)
     fseek(file, 0L, SEEK_SET);
     return siz;
 }
-char* readFile(FILE* file, int *n_chars, int *error)
+char* readFile(FILE* file, size_t *n_chars, int *error)
 {
     assert(file != NULL && n_chars != NULL && error != NULL);
     long siz = fileSize(file);
-    char* s = calloc(siz, sizeof(char));
-    *n_chars = fread(s, sizeof(char), siz, file);
+    // -1
+    char* s = calloc((size_t)siz, sizeof(char));
+    *n_chars = fread(s, sizeof(char), (size_t)siz, file);
     if (!feof(file) || ferror(file))
     {
         free(s);
@@ -23,10 +34,12 @@ char* readFile(FILE* file, int *n_chars, int *error)
     *error = 0;
     return s;
 }
-int nLines(const char* s)
+size_t nLines(const char* s)
 {
+    assert(s != NULL);
+
     if (s[0] == '\0') return 0;
-    int cnt = 0, i = 0;
+    size_t cnt = 0, i = 0;
     for (i = 0; s[i] != '\0'; ++i)
     {
         if (s[i] == '\n')
@@ -35,7 +48,7 @@ int nLines(const char* s)
     if (s[i - 1] != '\n') cnt += 1;
     return cnt;
 }
-struct Equation* getTests(const char* s, int n_lines, int* error)
+struct Equation* getTests(const char* s, size_t n_lines, int* error)
 {
     assert(error != NULL);
     struct Equation* tests = calloc(n_lines, sizeof(struct Equation));
@@ -44,7 +57,7 @@ struct Equation* getTests(const char* s, int n_lines, int* error)
         *error = 3;
         return NULL;
     }
-    for (int i = 0; i != n_lines; ++i)
+    for (size_t i = 0; i != n_lines; ++i)
     {
         if (sscanf(s, "%lf %lf %lf %d %lf %lf\n", &tests[i].a, &tests[i].b, &tests[i].c, &tests[i].n_roots, &tests[i].x1, &tests[i].x2) != 6)
         {
@@ -55,12 +68,14 @@ struct Equation* getTests(const char* s, int n_lines, int* error)
     }
     return tests;
 }
-int testSolver(struct Equation* tests, int n_tests)
+int testSolver(struct Equation* tests, size_t n_tests)
 {
+    assert(tests != NULL);
+
     struct Equation e;
     initEquation(&e);
     int right_cnt = 0, passed = 0;
-    for (int i = 0; i != n_tests; ++i)
+    for (size_t i = 0; i != n_tests; ++i)
     {
         setCoeff(&e, tests->a, tests->b, tests->c);
         solveQuadratic(&e);
@@ -118,7 +133,7 @@ double genRand(int rand_max)
 {
     return (1.0 * rand() - RAND_MAX / 2) / (RAND_MAX / 2) * rand_max;
 }
-struct Equation* readTests(const char* file_name, int *n_tests, int *error)
+struct Equation* readTests(const char* file_name, size_t *n_tests, int *error)
 {
     assert(file_name != NULL && n_tests != NULL && error != NULL);
 
@@ -129,13 +144,7 @@ struct Equation* readTests(const char* file_name, int *n_tests, int *error)
         *error = 1;
         return NULL;
     }
-    if (!fscanf(file, "%d", n_tests))
-    {
-        fclose(file);
-        *error = 2;
-        return NULL;
-    }
-    if (*n_tests < 0)
+    if (fscanf(file, "%u", n_tests) == 0)
     {
         fclose(file);
         *error = 2;
@@ -148,7 +157,7 @@ struct Equation* readTests(const char* file_name, int *n_tests, int *error)
         *error = 3;
         return NULL;
     }
-    for (int i = 0; i != *n_tests; ++i)
+    for (size_t i = 0; i != *n_tests; ++i)
     {
         if (fscanf(file, "%lf %lf %lf %d %lf %lf\n", &tests[i].a, &tests[i].b, &tests[i].c, &tests[i].n_roots, &tests[i].x1, &tests[i].x2) != 6)
         {
@@ -162,7 +171,7 @@ struct Equation* readTests(const char* file_name, int *n_tests, int *error)
     *error = 0;
     return tests;
 }
-int readAndTest(const char* file, int* n_tests)
+int readAndTest(const char* file, size_t* n_tests)
 {
     assert(n_tests !=  NULL);
 
@@ -179,7 +188,7 @@ int readAndTest(const char* file, int* n_tests)
     initEquation(&e);
     initEquation(&test);
     int ch = '\0', correct_cnt = 0, passed = 0;
-    for (int i = 0; i != *n_tests; ++i)
+    for (size_t i = 0; i != *n_tests; ++i)
     {
         if (fscanf(fp, "%lf %lf %lf %d %lf %lf", &test.a, &test.b, &test.c, &test.n_roots, &test.x1, &test.x2) != 6)
         {

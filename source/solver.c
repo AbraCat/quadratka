@@ -1,4 +1,11 @@
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+#include <stddef.h>
+#include <ctype.h>
+
 #include <solver.h>
+#include <custom.h>
 
 int scanCoeff(struct Equation* e)
 {

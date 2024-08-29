@@ -1,3 +1,8 @@
+#include <stdlib.h>
+#include <stdarg.h>
+#include <math.h>
+#include <assert.h>
+
 #include <custom.h>
 
 int iszero(double x) 
@@ -118,13 +123,15 @@ void printD(long long d)
 }
 int printF(double f, int p)
 {
+    assert(isfinite(f));
+
     if (p < 0) return 1;
     if (f < 0)
     {
         putchar('-');
         f *= -1;
     }
-    long long llf = (long long)f;
+    double llf = floor(f);
     printD(llf);
     if (p == 0) return 0;
     putchar('.');
